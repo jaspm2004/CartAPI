@@ -35,22 +35,19 @@ productapi:
 * Run
 
 ### Exemplos de uso
-* Para cadastrar um novo produto
+* Para acrescentar um produto ao carrinho
 ```
-fazer um POST em http://localhost:8080/productapi/products
-passar parâmetros no Request Body: name = <string> e stock = <int>
+fazer um POST em http://localhost:7070/cartapi/carts
+passar parâmetros no Request Body: cartId = <long> e productId = <long>
 ```
-* Para pesquisar produto
+* Para pesquisar produtos no carrinho
 ```
-fazer um GET em http://localhost:8080/productapi/products (lista todos os produtos)
-fazer um GET em http://localhost:8080/productapi/products/<id> (filtra pelo id)
-fazer um GET em http://localhost:8080/productapi/products?name=<nome do produto> (filtra pelo nome)
+fazer um GET em http://localhost:7070/cartapi/carts (lista todos os produtos de todos os carrinhos)
+fazer um GET em http://localhost:7070/cartapi/carts?cartId=<id do carrinho> (filtra pelo id)
 ```
-* Para modificar stock de um produto
+* Para fazer checkout de um carrinho
 ```
-fazer um PATCH em http://localhost:8080/productapi/products/<id>/stock/<qtd>
-qtd > 0 para acrescentar 
-qtd < 0 para decrementar
+fazer um PUT em http://localhost:7070/cartapi/carts/<cartId>/checkout
 ```
 
 
