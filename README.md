@@ -33,3 +33,21 @@ productapi:
 * Fazer o clone: https://github.com/jaspm2004/CartAPI
 * Clean & Build
 * Run
+
+### Exemplos de uso
+* Para acrescentar um produto ao carrinho
+```
+fazer um POST em http://localhost:7070/cartapi/carts
+passar parâmetros no Request Body: cartId = <long> e productId = <long>
+```
+* Para pesquisar produtos no carrinho
+```
+fazer um GET em http://localhost:7070/cartapi/carts (lista todos os produtos de todos os carrinhos)
+fazer um GET em http://localhost:7070/cartapi/carts?cartId=<id do carrinho> (filtra pelo id)
+```
+* Para fazer checkout de um carrinho
+```
+fazer um PUT em http://localhost:7070/cartapi/carts/<id do carrinho>/checkout
+```
+
+
