@@ -42,19 +42,21 @@ public class CartController {
     private String app;
     
     /**
-     * Returns a list of Cart Products filtering by cartId
+     * Retorna uma lista contendo os produtos que pertencem ao carrinho com o cartId correspondente
      * 
-     * @param cartId Cart Id.
-     * @return Http Status 200 if cart products are found, 404 if a cart products the given id was not found.
+     * @param cartId id do carrinho
+     * @return      200 se os produtos do carrinho são encontrados, 
+     *              404 se não existe carrinho com esse cartId, 
+     *              400 se o cartId não é recebido
      */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity listByCartId(@RequestParam(value = "cartId", required = false, defaultValue = "") Long cartId) {
-        // if the patameter cartId is omited
+        // se o cartId é null, retorna todos os produtos dos carrinhos
         if (cartId == null) {
             return new ResponseEntity(repository.findAll(), HttpStatus.OK);
         }
         
-        // if the patameter name is passed
+        // se o cartId não é null, filtra
         List<CartProduct> listById = repository.findByCartId(cartId);
         if (listById.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -64,14 +66,16 @@ public class CartController {
     }
     
     /**
-     * Insert a new Cart Product
+     * Insere um novo produto no carrinho. Verifica se há stock disponível antes de inserir
      * 
-     * @param cartProduct cart product to be inserted
-     * @return 400 if product has invalid data, 200 if the cart product was succesfully inserted.
+     * @param cartProduct o produto que será inserido
+     * @return      200 se o produto é inserido com sucesso no carrinho, 
+     *              404 se falta informação para inserir,
+     *              404 se não foi possível inserir o produto por falta de stock 
      */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createCartProduct(@RequestBody CartProduct cartProduct) {
-        // empty product name or stock not allowed
+        // o cartId e o productId não podem ser null
         if (cartProduct.getCartId() == null || cartProduct.getProductId() == null) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -101,6 +105,13 @@ public class CartController {
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
     
+    /**
+     * Faz o checkout do carrinho. Atualiza o stock do produto durante o checkout
+     * 
+     * @param cartId    id do carrinho
+     * @return      200 se o checkout foi feito com sucesso, 
+     *              404 se não existe carrinho com esse cartId      
+     */
     @RequestMapping(value = "{cartId}/checkout", method = RequestMethod.PUT)
     public ResponseEntity checkOut(@PathVariable("cartId") Long cartId) {
         // get product with the given id

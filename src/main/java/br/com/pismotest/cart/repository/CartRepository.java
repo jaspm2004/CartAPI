@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author Jose San Pedro
+ * @author José San Pedro
  */
 @Repository
 public interface CartRepository extends CrudRepository<CartProduct, Long> {
