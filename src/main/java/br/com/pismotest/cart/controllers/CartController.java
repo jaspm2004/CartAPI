@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -100,6 +101,13 @@ public class CartController {
                 return new ResponseEntity(repository.save(cartProduct), HttpStatus.OK);
         } catch (URISyntaxException ex) {
             Logger.getLogger(CartController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HttpClientErrorException ex) {
+            // se o produto não existe
+            System.out.println(ex.toString() + ": " + ex.getMessage());
+            if (ex.getMessage().startsWith("404"))
+                System.out.println("O produto com id " + cartProduct.getProductId() + " não existe");
+            
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
      
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -137,7 +145,7 @@ public class CartController {
                 repository.delete(cartProduct);
             } catch (URISyntaxException ex) {
                 Logger.getLogger(CartController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
         
         return new ResponseEntity(HttpStatus.OK);
