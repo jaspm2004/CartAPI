@@ -40,7 +40,7 @@ productapi:
 fazer um POST em http://localhost:8080/productapi/products
 passar parâmetros no Request Body: name = <string> e stock = <int>
 ```
-* Para pesquisar um produto
+* Para pesquisar produto
 ```
 fazer um GET em http://localhost:8080/productapi/products (lista todos os produtos)
 fazer um GET em http://localhost:8080/productapi/products/<id> (filtra pelo id)
