@@ -47,7 +47,7 @@ fazer um GET em http://localhost:7070/cartapi/carts?cartId=<id do carrinho> (fil
 ```
 * Para fazer checkout de um carrinho
 ```
-fazer um PUT em http://localhost:7070/cartapi/carts/<cartId>/checkout
+fazer um PUT em http://localhost:7070/cartapi/carts/<id do carrinho>/checkout
 ```
 
 
